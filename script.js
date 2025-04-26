@@ -103,10 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
         priceChart = new Chart(priceCtx, {
             type: 'line',
             data: {
-                labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+                labels: ['1月', '2月', '3月', '4月'],
                 datasets: [{
                     label: '价格趋势',
-                    data: [2.1, 2.3, 2.4, 2.2, 2.5, 2.6, 2.5],
+                    data: [2.1, 2.3, 2.4, 2.2],
                     borderColor: 'rgb(75, 192, 192)',
                     backgroundColor: 'rgba(75, 192, 192, 0.1)',
                     tension: 0.4,
