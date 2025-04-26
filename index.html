@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 分析仪表盘</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.3/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <div class="logo">NFT Analytics</div>
+                <div class="nav-links">
+                    <a href="#features">功能特点</a>
+                    <a href="#why-us">为什么选择我们</a>
+                    <a href="#analysis">开始分析</a>
+                    <button id="connectWallet" class="wallet-button">连接钱包</button>
+                </div>
+            </nav>
+            <div class="hero-section">
+                <h1>NFT 智能分析平台</h1>
+                <p class="subtitle">专业的NFT市场数据分析工具，为您的投资决策提供数据支持</p>
+                <div class="cta-buttons">
+                    <a href="#analysis" class="cta-primary">开始分析</a>
+                    <a href="#features" class="cta-secondary">了解更多</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>核心功能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>市场数据分析</h3>
+                    <p>实时追踪NFT价格、交易量、地板价等关键指标</p>
+                </div>
+                <div class="feature-card">
+                    <h3>社交热度分析</h3>
+                    <p>监控Twitter、Discord等平台的社区活跃度</p>
+                </div>
+                <div class="feature-card">
+                    <h3>稀有度评估</h3>
+                    <p>智能分析NFT特征分布和稀有度评分</p>
+                </div>
+                <div class="feature-card">
+                    <h3>投资策略建议</h3>
+                    <p>基于多维度数据提供投资信号和建议</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-us" class="qa-section">
+        <div class="container">
+            <h2>为什么选择我们</h2>
+            <div class="qa-grid">
+                <div class="qa-card">
+                    <h3>数据全面性</h3>
+                    <p>整合多个数据源，提供最全面的NFT市场分析</p>
+                </div>
+                <div class="qa-card">
+                    <h3>实时更新</h3>
+                    <p>数据实时更新，确保您获取最新市场动态</p>
+                </div>
+                <div class="qa-card">
+                    <h3>智能分析</h3>
+                    <p>AI驱动的分析引擎，提供深度洞察</p>
+                </div>
+                <div class="qa-card">
+                    <h3>用户友好</h3>
+                    <p>简洁直观的界面，轻松获取所需信息</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="analysis" class="analysis-section">
+        <div class="container">
+            <h2>开始分析</h2>
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="nftInput" placeholder="输入NFT名称或合约地址">
+                    <button id="analyzeBtn">开始分析</button>
+                </div>
+                <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>正在分析数据...</p>
+                </div>
+            </div>
+
+            <div class="dashboard" id="dashboard" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="analysis-card market-data">
+                        <div class="card-header">
+                            <h2>市场数据分析</h2>
+                            <div class="metrics-summary">
+                                <div class="metric">
+                                    <span class="label">平均价格</span>
+                                    <span class="value" id="avgPrice">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">交易量</span>
+                                    <span class="value" id="volume">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">地板价</span>
+                                    <span class="value" id="floorPrice">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">市值</span>
+                                    <span class="value" id="marketCap">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card social-heat">
+                        <div class="card-header">
+                            <h2>社交热度分析</h2>
+                            <div class="metrics-summary">
+                                <div class="metric">
+                                    <span class="label">Twitter增长</span>
+                                    <span class="value" id="twitterGrowth">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">Discord活跃度</span>
+                                    <span class="value" id="discordActivity">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">市场情绪</span>
+                                    <span class="value" id="marketSentiment">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="socialChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card rarity">
+                        <div class="card-header">
+                            <h2>稀有度特征分析</h2>
+                            <div class="metrics-summary">
+                                <div class="metric">
+                                    <span class="label">稀有度评分</span>
+                                    <span class="value" id="rarityScore">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">特征分布</span>
+                                    <span class="value" id="traitDistribution">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="rarityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card investment">
+                        <div class="card-header">
+                            <h2>投资策略分析</h2>
+                            <div class="metrics-summary">
+                                <div class="metric">
+                                    <span class="label">当前建议</span>
+                                    <span class="value" id="investmentAdvice">-</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="label">信号强度</span>
+                                    <span class="value" id="signalStrength">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="signalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>NFT Analytics 致力于为NFT投资者提供专业的市场分析工具和数据支持。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>联系方式</h3>
+                    <p>Email: contact@nftanalytics.com</p>
+                    <p>Twitter: @NFT_Analytics</p>
+                </div>
+                <div class="footer-section">
+                    <h3>免责声明</h3>
+                    <p>本工具提供的分析结果仅供参考，不构成投资建议。投资有风险，入市需谨慎。</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 NFT Analytics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="walletModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>连接钱包</h2>
+            <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+            <div class="wallet-options">
+                <button class="wallet-option" data-wallet="metamask">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+                    MetaMask
+                </button>
+                <button class="wallet-option" data-wallet="walletconnect">
+                    <img src="https://avatars.githubusercontent.com/u/37784886?s=200&v=4" alt="WalletConnect">
+                    WalletConnect
+                </button>
+            </div>
+            <div class="wallet-info" id="walletInfo" style="display: none;">
+                <p>已连接钱包：<span id="walletAddress"></span></p>
+                <button id="disconnectWallet" class="secondary-button">断开连接</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
